@@ -1,0 +1,124 @@
+@startuml
+
+abstract class com.node.replica.Database.WriteTemplate {
+# IndexManager indexManager
+# Request request
++ boolean perform()
++ boolean isAffinityNode()
++ boolean isUpToDate()
++ {abstract}void execute()
++ void broadcast()
++ boolean delegateAffinityNode()
++ String toString()
+}
+class com.node.replica.Database.CreateDataBase {
++ void execute()
++ void writeOnDisk()
+}
+
+class com.node.replica.Database.DeleteDataBase {
++ void execute()
+- void deleteDirectory(Path)
+}
+
+class com.node.replica.Database.UpdateSchema {
++ boolean isUpToDate()
++ void execute()
++ void writeOnDisk()
+}
+class com.node.replica.indexing.CreateIndex {
++ void execute()
+}
+class com.node.replica.Database.CreateDocument {
++ boolean isUpToDate()
++ void execute()
++ void writeOnDisk()
+}
+class com.node.replica.indexing.DeleteIndex {
++ void execute()
+}
+abstract class com.node.replica.communication.Request {
+~ Hashtable<String,String> properties
+- String endpoint
+- String method
+- String broadcastEndpoint
++ String getProperty(String)
++ String getMethod()
++ String getEndpoint()
++ String getBroadcastEndpoint()
++ void updateProperty(String,String)
++ Hashtable<String,String> getProperties()
+}
+abstract class com.node.replica.communication.Request$Builder {
+~ Hashtable<String,String> properties
+- String endpoint
+- String method
+- String broadcastEndpoint
++ T addProperty(String,String)
++ T setMethod(String)
++ T setEndpoint(String)
++ T setBroadCastEndpoint(String)
+~ {abstract}Request build()
+# {abstract}T self()
+}
+class com.node.replica.controller.Query {
++ WriteHandler writeHandler
++ ReadHandler readHandler
++ String connectDatabase(String)
++ List<String> readDocuments(String,String,String)
++ String readProperty(String,String,String)
++ boolean deleteProperty(String,String,String)
++ boolean updateProperty(String,String,String,String,String)
++ boolean createDocument(String,String,String)
++ String readDocument(String,String)
++ boolean deleteDocument(String,String)
++ List<String> readAllDocuments(String)
++ boolean createDatabase(String,String)
++ boolean deleteDatabase(String)
++ boolean updateSchema(String,String)
++ boolean createIndex(String,String)
++ boolean deleteIndex(String,String)
+}
+class com.node.replica.Database.UpdateProperty {
++ boolean isAffinityNode()
++ boolean isUpToDate()
++ void execute()
++ void writeOnDisk()
++ boolean delegateAffinityNode()
+}
+class com.node.replica.indexing.IndexManager {
+- {static} Hashtable<IndexKey,PropertyIndex> databaseIndex
++ IndexManager getIndexManager()
++ void init()
++ void createIndex(String,String)
++ Hashtable<IndexKey,PropertyIndex> getDatabaseIndex()
++ void writeOnDisk(IndexKey)
++ PropertyIndex getIndex(IndexKey)
++ void updateIndex(String,String)
++ PropertyIndex deleteIndex(String,String)
+}
+class com.node.replica.Database.DeleteProperty {
++ boolean isAffinityNode()
++ void execute()
++ void writeOnDisk()
++ boolean delegateAffinityNode()
+}
+class com.node.replica.Database.DeleteDocument {
++ boolean isAffinityNode()
++ void execute()
++ boolean delegateAffinityNode()
+}
+
+
+com.node.replica.communication.Request <|-- com.node.replica.communication.RequestBuilder
+com.node.replica.communication.RequestBuilder +.. com.node.replica.communication.RequestBuilder$Builder
+com.node.replica.communication.Builder <|-- com.node.replica.communication.RequestBuilder$Builder
+com.node.replica.Database.WriteTemplate <|-- com.node.replica.Database.CreateDataBase
+com.node.replica.Database.WriteTemplate <|-- com.node.replica.Database.DeleteDataBase
+com.node.replica.Database.WriteTemplate <|-- com.node.replica.Database.UpdateSchema
+com.node.replica.Database.WriteTemplate <|-- com.node.replica.Database.CreateDocument
+com.node.replica.communication.Request +.. com.node.replica.communication.Request$Builder
+com.node.replica.Database.WriteTemplate <|-- com.node.replica.Database.UpdateProperty
+com.node.replica.Database.WriteTemplate <|-- com.node.replica.Database.DeleteProperty
+com.node.replica.Database.WriteTemplate <|-- com.node.replica.Database.DeleteDocument
+@enduml

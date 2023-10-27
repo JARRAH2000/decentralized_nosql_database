@@ -1,0 +1,59 @@
+@startuml
+class com.node.replica.Database.DatabaseCreationQuery {
++ void execute()
++ void writeOnDisk()
+}
+
+class com.node.replica.Database.DocumentDeletionQuery {
++ boolean isAffinityNode()
++ void execute()
++ boolean delegateAffinityNode()
+}
+class com.node.replica.Database.DocumentCreationQuery {
++ boolean isUpToDate()
++ void execute()
++ void writeOnDisk()
+}
+class com.node.replica.Database.DatabaseDeletionQuery {
++ void execute()
+- void deleteDirectory(Path)
+}
+class com.node.replica.Database.SchemaUpdatingQuery {
++ boolean isUpToDate()
++ void execute()
++ void writeOnDisk()
+}
+class com.node.replica.Database.PropertyUpdatingQuery {
++ boolean isAffinityNode()
++ boolean isUpToDate()
++ void execute()
++ void writeOnDisk()
++ boolean delegateAffinityNode()
+}
+abstract class com.node.replica.Database.WriteTemplate {
+# IndexManager indexManager
+# Request request
++ boolean perform()
++ boolean isAffinityNode()
++ boolean isUpToDate()
++ {abstract}void execute()
++ void broadcast()
++ boolean delegateAffinityNode()
++ String toString()
+}
+class com.node.replica.Database.PropertyDeletionQuery {
++ boolean isAffinityNode()
++ void execute()
++ void writeOnDisk()
++ boolean delegateAffinityNode()
+}
+
+
+com.node.replica.Database.WriteTemplate <|-- com.node.replica.Database.DatabaseCreationQuery
+com.node.replica.Database.WriteTemplate <|-- com.node.replica.Database.DocumentDeletionQuery
+com.node.replica.Database.WriteTemplate <|-- com.node.replica.Database.DocumentCreationQuery
+com.node.replica.Database.WriteTemplate <|-- com.node.replica.Database.DatabaseDeletionQuery
+com.node.replica.Database.WriteTemplate <|-- com.node.replica.Database.SchemaUpdatingQuery
+com.node.replica.Database.WriteTemplate <|-- com.node.replica.Database.PropertyUpdatingQuery
+com.node.replica.Database.WriteTemplate <|-- com.node.replica.Database.PropertyDeletionQuery
+@enduml

@@ -1,0 +1,164 @@
+version: '3'
+services:
+  bootstrapping:
+   build: .
+   ports:
+    - "8080:8080"
+   volumes:
+     - bootstrapping-data:/app/data
+     - ./data:/app/data
+   environment:
+    FIRST_PORT: 8081
+    LAST_PORT: 8090
+  node1:
+   build: ../replica
+   ports:
+    - "8081:8081"
+   depends_on:
+    - bootstrapping
+   volumes:
+     - node-1-data:/app/replicas
+     - ../replica/replicas/node-1-vol:/app/replicas
+   environment:
+    BOOTSTRAPPING_PORT: 8080
+    MY_PORT: 8081
+    FIRST_PORT: 8081
+    LAST_PORT: 8090
+  node2:
+    build: ../replica
+    ports:
+     - "8082:8082"
+    depends_on:
+     - bootstrapping
+    volumes:
+      - node-2-data:/app/replicas
+      - ../replica/replicas/node-2-vol:/app/replicas
+    environment:
+      BOOTSTRAPPING_PORT: 8080
+      MY_PORT: 8082
+      FIRST_PORT: 8081
+      LAST_PORT: 8090
+  node3:
+    build: ../replica
+    ports:
+     - "8083:8083"
+    depends_on:
+     - bootstrapping
+    volumes:
+      - node-3-data:/app/replicas
+      - ../replica/replicas/node-3-vol:/app/replicas
+    environment:
+      BOOTSTRAPPING_PORT: 8080
+      MY_PORT: 8083
+      FIRST_PORT: 8081
+      LAST_PORT: 8090
+  node4:
+    build: ../replica
+    ports:
+     - "8084:8084"
+    depends_on:
+     - bootstrapping
+    volumes:
+      - node-4-data:/app/replicas
+      - ../replica/replicas/node-4-vol:/app/replicas
+    environment:
+      BOOTSTRAPPING_PORT: 8080
+      MY_PORT: 8084
+      FIRST_PORT: 8081
+      LAST_PORT: 8090
+  node5:
+    build: ../replica
+    ports:
+     - "8085:8085"
+    depends_on:
+     - bootstrapping
+    volumes:
+      - node-5-data:/app/replicas
+      - ../replica/replicas/node-5-vol:/app/replicas
+    environment:
+      BOOTSTRAPPING_PORT: 8080
+      MY_PORT: 8085
+      FIRST_PORT: 8081
+      LAST_PORT: 8090
+  node6:
+    build: ../replica
+    ports:
+     - "8086:8086"
+    depends_on:
+     - bootstrapping
+    volumes:
+      - node-6-data:/app/replicas
+      - ../replica/replicas/node-6-vol:/app/replicas
+    environment:
+      BOOTSTRAPPING_PORT: 8080
+      MY_PORT: 8086
+      FIRST_PORT: 8081
+      LAST_PORT: 8090
+  node7:
+    build: ../replica
+    ports:
+     - "8087:8087"
+    depends_on:
+     - bootstrapping
+    volumes:
+      - node-7-data:/app/replicas
+      - ../replica/replicas/node-7-vol:/app/replicas
+    environment:
+      BOOTSTRAPPING_PORT: 8080
+      MY_PORT: 8087
+      FIRST_PORT: 8081
+      LAST_PORT: 8090
+  node8:
+    build: ../replica
+    ports:
+     - "8088:8088"
+    depends_on:
+     - bootstrapping
+    volumes:
+      - node-8-data:/app/replicas
+      - ../replica/replicas/node-8-vol:/app/replicas
+    environment:
+      BOOTSTRAPPING_PORT: 8080
+      MY_PORT: 8088
+      FIRST_PORT: 8081
+      LAST_PORT: 8090
+  node9:
+    build: ../replica
+    ports:
+     - "8089:8089"
+    depends_on:
+     - bootstrapping
+    volumes:
+      - node-9-data:/app/replicas
+      - ../replica/replicas/node-9-vol:/app/replicas
+    environment:
+      BOOTSTRAPPING_PORT: 8080
+      MY_PORT: 8089
+      FIRST_PORT: 8081
+      LAST_PORT: 8090
+  node10:
+    build: ../replica
+    ports:
+     - "8090:8090"
+    depends_on:
+     - bootstrapping
+    volumes:
+      - node-10-data:/app/replicas
+      - ../replica/replicas/node-10-vol:/app/replicas
+    environment:
+      BOOTSTRAPPING_PORT: 8080
+      MY_PORT: 8090
+      FIRST_PORT: 8081
+      LAST_PORT: 8090
+volumes:
+  node-1-data:
+  node-2-data:
+  node-3-data:
+  node-4-data:
+  node-5-data:
+  node-6-data:
+  node-7-data:
+  node-8-data:
+  node-9-data:
+  node-10-data:
+  bootstrapping-data:

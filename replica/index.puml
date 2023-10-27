@@ -1,0 +1,39 @@
+@startuml
+class com.node.replica.indexing.IndexDeletionQuery {
++ void execute()
+}
+class com.node.replica.indexing.IndexCreationQuery {
++ void execute()
+}
+class com.node.replica.indexing.IndexKey {
+- String database
+- String property
++ String database()
++ String property()
++ boolean equals(Object)
++ int hashCode()
+}
+class com.node.replica.indexing.PropertyIndex {
+- Hashtable<Object,List<Path>> indexes
++ List<Path> getPaths(Object)
++ Hashtable<Object,List<Path>> getIndexes()
++ void addPath(Object,Path)
++ void addPaths(Object,List<Path>)
+}
+class com.node.replica.indexing.IndexManager {
+- Hashtable<IndexKey,PropertyIndex> databaseIndex
+- {static} IndexManager indexManager
++ {static} IndexManager getIndexManager()
++ void init()
++ void createIndex(String,String)
++ Hashtable<IndexKey,PropertyIndex> getDatabaseIndex()
++ void writeOnDisk(IndexKey)
++ PropertyIndex getIndex(IndexKey)
++ void updateIndex(String,String)
++ PropertyIndex deleteIndex(String,String)
+}
+
+
+com.node.replica.Database.WriteTemplate <|-- com.node.replica.indexing.IndexDeletionQuery
+com.node.replica.Database.WriteTemplate <|-- com.node.replica.indexing.IndexCreationQuery
+@enduml
